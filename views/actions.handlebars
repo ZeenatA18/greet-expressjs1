@@ -1,0 +1,19 @@
+<div>
+    <nav class="navbar">
+            <ul>
+                <li><a href="/">Home</a></li>
+            </ul>
+        </nav>
+        
+    <h1>Greeted Names</h1>
+
+ <div class="list">
+       
+        {{#each name}}
+    
+        <h3>  <a href="/count/{{this}}">{{this}}<p style="text-align:center"></p>  </a></h3>
+    
+        {{/each}}
+    </div>
+
+</div>

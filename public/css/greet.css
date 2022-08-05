@@ -1,0 +1,156 @@
+body{
+    /* background-color: black; */
+    background-image: url(ppp.jpeg);
+}
+
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff80;
+    position: sticky;
+    top: 0;
+}
+
+.navbar ul{
+    display: flex;
+    list-style: none;
+    margin: 20px 0px;
+}
+
+.navbar ul li{
+    font-family: century;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.navbar ul li a{
+    text-decoration: none;
+    color: white;
+    padding: 8px 25px;
+    transition: all .5s ease;
+}
+
+.navbar ul li a:hover{
+    background-color: white;
+    color: black;
+    box-shadow: 0 0 10px white;
+}
+
+h1{
+    margin-top: 2em;
+    color: white;
+    text-align: center;
+}
+
+.name{
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.NameEntered{
+    margin: 1em;
+}
+
+.lingo{
+    display: flex;
+    color: white;
+    justify-content: center;
+}
+
+.eng{
+    display: flex;
+    justify-content: center;
+}
+
+.engRadio{
+    margin-top: 1.8em;
+    margin-right: 1em;
+}
+
+.afr{
+    display: flex;
+    justify-content: center;
+}
+
+.afrRadio{
+    margin-top: 1.8em;
+    margin-right: 1em;
+}
+
+.isi{
+    display: flex;
+    justify-content: center;
+}
+
+.isiRadio{
+    margin-top: 1.8em;
+    margin-right: 1em;
+}
+
+.radio{
+    margin: 20px;
+}
+
+.btn{
+    text-align: center;
+    padding: 2em;
+}
+
+.message{
+    color: rgb(35, 209, 0);
+    text-align: center;
+    font-size: xx-large;
+}
+
+.message1{
+    color: red;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.counter{
+    color: white;
+    margin-top: 30px;
+}
+
+.resets{
+    display: flex;
+}
+
+.btn2{
+    text-align: center;
+    padding: 2em;
+}
+
+.flex{
+    /* margin-left: 550px; */
+    display: flex;
+    justify-content: center;
+}
+
+/* .greeted{
+color: white;
+/* justify-content: center; */
+/* align-content: center; */
+/* } */ 
+
+.list {
+    text-align: center;
+}
+
+.data{
+color: white;
+}
+
+h2{
+    color: white;
+}
+@media only screen and (max-width: 600px){
+
+    .flex{
+        /* margin-left: 70px; */
+        align-content: center;
+    }
+}

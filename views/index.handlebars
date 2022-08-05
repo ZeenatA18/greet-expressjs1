@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greet</title>
+    <link rel="stylesheet" href="greet.css">
+</head>
+
+<body>
+    <div class="content">
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/list">Data</a></li>
+            </ul>
+        </nav>
+        <form action="/greetings" method="POST">
+            <h1>Greet</h1>
+
+
+            <div class="name">
+                <a href="/list">
+                    <h3>Name:</h3>
+                </a>
+                <input type="text" name="text" class="NameEntered" value="" placeholder="Please Enter Name Here">
+            </div>
+
+            <div class="lingo">
+                <div class="eng">
+                    <input type="radio" name="language" value="eng" class="radio" class="engRadio">
+                    <h4>English</h4>
+                </div>
+                <div class="afr">
+                    <input type="radio" name="language" value="afr" class="radio" class="afrRadio">
+                    <h4>Afrikaans</h4>
+                </div>
+                <div class="isi">
+                    <input type="radio" name="language" value="isi" class="radio" class="isiRadio">
+                    <h4>isiXhosa</h4>
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="btn">
+                    <button class="button" type="submit" name="Greet_Me" value="Greet Me">Greet Me</button>
+                </div>
+
+                <div class="resets">
+                    <div class="counter">
+                        <h1>⏰ {{count}}</h1>
+                    </div>
+                    <div class="btn2">
+                        <button class="reset" type="submit" name="Counter" value="Greet Me">Reset {{reset}}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message">
+                <h2> {{msg}}</h2>
+            </div>
+            
+            <div class="message1">
+                {{#if messages}}
+                <h3> {{messages.error}}</h3>
+                {{/if}}
+            </div>
+            {{!-- <a href="greets.handlebars">Greeted Names</a> --}}
+    </div>
+    </form>
+
+    {{!--
+    <script src="./tests/greet.ff.js"></script> --}}
+    {{!--
+    <script src="greet.js"></script> --}}
+</body>
+
+</html>

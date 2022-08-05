@@ -1,0 +1,26 @@
+{
+  "name": "greet-expressjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "greet.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.jsnpm"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body": "^5.1.0",
+    "express": "^4.18.1",
+    "express-flash": "0.0.2",
+    "express-flash-message": "^2.1.0",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "mocha": "^10.0.0",
+    "parser": "^0.1.4"
+  }
+}
