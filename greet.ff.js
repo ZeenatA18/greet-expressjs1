@@ -5,8 +5,6 @@ module.exports = function Greetings() {
 
     function greet(personName, language) {
 
-        
-
         if (alphabet.test(personName)) {
             if (language === "eng") {
                 return "Hello, " + personName
@@ -17,6 +15,18 @@ module.exports = function Greetings() {
             }
         }else{
             return "ERROR!! Use Alphabet only"
+        }
+    }
+    
+    function setNames(personName) {
+        if(alphabet.test(personName) == false){
+            return;
+        }
+        if (storedNames[personName] == undefined) {
+            storedNames[personName] =1 
+        }
+        else {
+            storedNames[personName]++
         }
     }
 
@@ -33,19 +43,6 @@ module.exports = function Greetings() {
     }
     }
 
-    function setNames(personName) {
-        if(alphabet.test(personName) == false){
-            return
-        }
-        if (storedNames[personName] == undefined) {
-            storedNames[personName] =1 
-        }
-        else {
-            storedNames[personName]++
-
-        }
-
-    }
 
     function getNames() {
         return Object.keys(storedNames)
@@ -71,12 +68,13 @@ module.exports = function Greetings() {
         
     // }
 
+  
+
     return {
         greet,
         setNames,
         getNames,
         nameCount,
-        // errorMessenges,
         validateInputs,
         // reseted,
         naam,

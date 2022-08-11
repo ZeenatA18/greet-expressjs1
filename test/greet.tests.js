@@ -26,17 +26,6 @@ describe("Greet function", function () {
     })
 })
 
-//     describe("Greet ", function () {
-
-//     it("Should store the names entered into empty object", function () {
-//         const greets = greeting()
-
-//         greets.setNames('fdfd')
-//         assert.deepEqual(['fdfd'], greets.getNames());
-
-//     })
-
-// })
 
     describe("Greet counter", function () {
 
@@ -60,6 +49,15 @@ describe("Greet function", function () {
         greets.setNames('zee')
   
           assert.equal(3, greets.getUsercounter('zee'));
+  
+      })
+
+      it("Should not count when no language was selected and name", function () {
+        const greets = greeting()
+
+        
+  
+          assert.equal(0, greets.nameCount());
   
       })
 

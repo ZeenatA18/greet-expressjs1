@@ -35,14 +35,14 @@ app.get('/', function (req, res) {
 })
 
 app.post('/greetings', function (req, res) {
-    let name = req.body.text
+    let name = req.body.text_name
     let language = req.body.language
 
-    let alphabet = /^[a-z A-Z]+$/
+   // let alphabet = /^[a-z A-Z]+$/
 
-    if (alphabet.test(name)) {
-     req.flash('error', "ERROR!! Use Alphabet only") 
-    }
+    // if (alphabet.test(name)) {
+    //  req.flash('error', "ERROR!! Use Alphabet only") 
+    // }
 
     if (name && language) {
         var msg = greets.greet(name, language)
