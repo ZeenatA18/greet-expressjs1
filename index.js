@@ -50,7 +50,7 @@ app.post('/greetings', function (req, res) {
         req.flash('error', greets.validateInputs(name,language))
     }
 
-    if (name) {
+    if (name && language) {
         greets.setNames(name);
         var count = greets.nameCount()
     }
