@@ -116,7 +116,7 @@ app.get('/reset',async function (req, res) {
     res.redirect('/')
 });
 
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function () {
     console.log("App started at port:", PORT)

@@ -1,8 +1,8 @@
 module.exports = function Greetings(pool) {
 
-var data = pool
+// var data = pool
     
-    var storedNames = {}
+    // var storedNames = {}
     let alphabet = /^[a-z A-Z]+$/
 
     async function greet(personName, language) {
@@ -23,16 +23,23 @@ var data = pool
     }
 
    async function setNames(personName) {
-        if (alphabet.test(personName) == false) {
-            return;
-        }
-        if (storedNames[personName] == undefined) {
-            storedNames[personName] = 1
-        }
-        else {
-            storedNames[personName]++
-        }
-        await pool.query('INSERT INTO greeted_names(name, counter) values($1,1);', [personName])
+
+    let result = await pool.query('SELECT name_text FROM greeted_names WHERE name =$1', [personName])
+    if(result.rowCount == 0){
+        await pool.query('INSERT INTO greeted_names(name, counter) values($1,$2)', [personName,1])
+    }{
+        await pool.query('UPDATE greeted_names counter = counter+1 WHERE name_text =$1',[personName])
+    }
+
+        // if (alphabet.test(personName) == false) {
+        //     return;
+        // }
+        // if (storedNames[personName] == undefined) {
+        //     storedNames[personName] = 1
+        // }
+        // else {
+        //     storedNames[personName]++
+        // }
     }
 
     function validateInputs(name, language) {
