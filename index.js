@@ -3,13 +3,28 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
 const greeting = require('./greet.ff');
-
 const flash = require('express-flash');
 const session = require('express-session');
 
+// const pg = require('pg-promise');
+
 const app = express();
 
-const greets = greeting()
+const pg = require("pg");
+const Pool = pg.Pool;
+
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local){
+    useSSL = true;
+}
+const connectionString = process.env.DATABASE_URL || 'postgresql://zeenat:pg123@localhost:5432/greetings';
+
+const pool = new Pool({
+    connectionString
+});
+
+const greets = greeting(pool)
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
@@ -34,7 +49,7 @@ app.get('/', function (req, res) {
     });
 })
 
-app.post('/greetings', function (req, res) {
+app.post('/greetings', async function (req, res) {
     let name = req.body.text_name
     let language = req.body.language
 
@@ -45,14 +60,14 @@ app.post('/greetings', function (req, res) {
     // }
 
     if (name && language) {
-        var msg = greets.greet(name, language)
+        var msg = await greets.greet(name, language)
     }else {
-        req.flash('error', greets.validateInputs(name,language))
+        req.flash('error', await greets.validateInputs(name,language))
     }
 
     if (name && language) {
-        greets.setNames(name);
-        var count = greets.nameCount()
+        await greets.setNames(name);
+        var count = await greets.nameCount()
     }
 
     res.render('index', {
@@ -92,6 +107,13 @@ app.get('/actions/type', function (req, res) {
         getNames: listedNames
         
     })
+});
+
+app.get('/reset',async function (req, res) {
+    await greets.reseted();
+    console.log("-------------");
+
+    res.redirect('/')
 });
 
 const PORT = process.env.PORT || 3010;

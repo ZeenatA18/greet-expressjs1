@@ -21,6 +21,7 @@
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
     "mocha": "^10.0.0",
-    "parser": "^0.1.4"
+    "parser": "^0.1.4",
+    "pg-promise": "^10.11.1"
   }
 }

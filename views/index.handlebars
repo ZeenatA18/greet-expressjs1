@@ -53,24 +53,26 @@
                     <div class="counter">
                         <h1>⏰ {{count}}</h1>
                     </div>
-                    <div class="btn2">
-                        <button class="reset" type="submit" name="Counter" value="Greet Me">Reset {{reset}}</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="message">
-                <h2> {{msg}}</h2>
-            </div>
-            
-            <div class="message1">
-                {{#if messages}}
-                <h3> {{messages.error}}</h3>
-                {{/if}}
-            </div>
-            {{!-- <a href="greets.handlebars">Greeted Names</a> --}}
+        </form>
+        <div class="btn2">
+            <a href="/reset">
+                <button class="reset" type="button" name="Counter" value="Greet Me">Reset</button>
+            </a>
+        </div>
     </div>
-    </form>
+    </div>
+
+    <div class="message">
+        <h2> {{msg}}</h2>
+    </div>
+
+    <div class="message1">
+        {{#if messages}}
+        <h3> {{messages.error}}</h3>
+        {{/if}}
+    </div>
+    {{!-- <a href="greets.handlebars">Greeted Names</a> --}}
+    </div>
 
     {{!--
     <script src="./tests/greet.ff.js"></script> --}}

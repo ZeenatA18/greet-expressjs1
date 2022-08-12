@@ -1,9 +1,13 @@
-module.exports = function Greetings() {
+module.exports = function Greetings(pool) {
 
+var data = pool
+    
     var storedNames = {}
     let alphabet = /^[a-z A-Z]+$/
 
-    function greet(personName, language) {
+    async function greet(personName, language) {
+        let names = await pool.query('select * from greeted_names')
+        console.log(names.rows);
 
         if (alphabet.test(personName)) {
             if (language === "eng") {
@@ -13,34 +17,36 @@ module.exports = function Greetings() {
             } else if (language === "isi") {
                 return "Molo, " + personName
             }
-        }else{
+        } else {
             return "ERROR!! Use Alphabet only"
         }
     }
-    
-    function setNames(personName) {
-        if(alphabet.test(personName) == false){
+
+   async function setNames(personName) {
+        if (alphabet.test(personName) == false) {
             return;
         }
         if (storedNames[personName] == undefined) {
-            storedNames[personName] =1 
+            storedNames[personName] = 1
         }
         else {
             storedNames[personName]++
         }
+        await pool.query('INSERT INTO greeted_names(name, counter) values($1,1);', [personName])
     }
 
     function validateInputs(name, language) {
         if (name === "" && !language) {
             return "Please enter valid name and select language"
         }
-        else {if(name === "") {
-            return "Please Enter name"
+        else {
+            if (name === "") {
+                return "Please Enter name"
+            }
+            if (!language) {
+                return "Please select language"
+            }
         }
-        if (!language) {
-            return "Please select language"
-        }
-    }
     }
 
 
@@ -48,27 +54,34 @@ module.exports = function Greetings() {
         return Object.keys(storedNames)
     }
 
-    function nameCount() {
-       var naamlist = Object.keys(storedNames);
+    async function nameCount() {
+        let counts = await pool.query('select count(*) from greeted_names;')
 
-        return naamlist.length;
+        console.log(counts)
+        return counts.rows[0].count
+
+        // var naamlist = Object.keys(storedNames);
+
+        // return naamlist.length;
     }
 
-    function naam(){
+    function naam() {
         var listed = Object.values(storedNames);
         return listed
     }
 
-    function getUsercounter(naam){
-    return storedNames[naam]
+    function getUsercounter(naam) {
+        return storedNames[naam]
     }
 
-    // function reseted(){
-    //     return storedNames = {}
+    async function reseted() {
+        return data.none('DELETE FROM users_greeted');
         
-    // }
+        // storedNames = {}
 
-  
+    }
+
+
 
     return {
         greet,
@@ -76,7 +89,7 @@ module.exports = function Greetings() {
         getNames,
         nameCount,
         validateInputs,
-        // reseted,
+        reseted,
         naam,
         getUsercounter
     }
