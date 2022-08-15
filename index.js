@@ -6,25 +6,29 @@ const greeting = require('./greet.ff');
 const flash = require('express-flash');
 const session = require('express-session');
 
-// const pg = require('pg-promise');
+const pgp = require('pg-promise')();
 
 const app = express();
 
-const pg = require("pg");
-const Pool = pg.Pool;
+// const pg = require("pg");
+// const Pool = pg.Pool;
 
 let useSSL = false;
 let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local){
     useSSL = true;
 }
-const connectionString = process.env.DATABASE_URL || 'postgresql://zeenat:pg123@localhost:5432/greetings';
+const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:pg123@localhost:5432/greetings';
 
-const pool = new Pool({
-    connectionString
-});
 
-const greets = greeting(pool)
+
+const config = { 
+	connectionString : DATABASE_URL
+}
+
+const db = pgp(config);
+
+const greets = greeting(db)
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
@@ -42,9 +46,11 @@ app.use(bodyParser.json())
 app.use(flash());
 
 
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
+   let count = await greets.nameCount()
 
     res.render('index', {
+        count
 
     });
 })
@@ -53,16 +59,11 @@ app.post('/greetings', async function (req, res) {
     let name = req.body.text_name
     let language = req.body.language
 
-   // let alphabet = /^[a-z A-Z]+$/
-
-    // if (alphabet.test(name)) {
-    //  req.flash('error', "ERROR!! Use Alphabet only") 
-    // }
 
     if (name && language) {
-        var msg = await greets.greet(name, language)
+        var msg = greets.greet(name, language)
     }else {
-        req.flash('error', await greets.validateInputs(name,language))
+        req.flash('error', greets.validateInputs(name,language))
     }
 
     if (name && language) {
@@ -77,13 +78,23 @@ app.post('/greetings', async function (req, res) {
 });
 
 
-app.get('/list', function (req, res) {
-
+app.get('/list',async function (req, res) {
+    let names = await greets.getNames()
+    console.log(names)
     res.render('actions', {
-        name: greets.getNames()
+        names: names
     })
-// console.log(greets.getNames()
 
+});
+
+app.get('/actions/type', function (req, res) {
+
+    let listedNames = req.body.text
+
+    res.render("getNames", {
+        getNames: listedNames
+        
+    })
 });
 
 app.get('/count/:naam', function (req, res) {
@@ -98,17 +109,6 @@ app.get('/count/:naam', function (req, res) {
     })
 });
 
-
-app.get('/actions/type', function (req, res) {
-
-    let listedNames = req.body.text
-
-    res.render("getNames", {
-        getNames: listedNames
-        
-    })
-});
-
 app.get('/reset',async function (req, res) {
     await greets.reseted();
     console.log("-------------");
@@ -116,8 +116,7 @@ app.get('/reset',async function (req, res) {
     res.redirect('/')
 });
 
-const PORT = process.env.PORT || 3012;
-
+const PORT = process.env.PORT || 3017;
 app.listen(PORT, function () {
     console.log("App started at port:", PORT)
 })
