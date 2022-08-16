@@ -29,13 +29,13 @@ describe("Greet function", function () {
 
     describe("Greet counter", function () {
 
-    it("Should get the length of the names stored", function () {
+    it("Should get the length of the names stored", async function () {
         const greets = greeting()
 
-        greets.setNames('zee')
-        greets.setNames('mako')
+        await greets.setNames('zee')
+        await greets.setNames('mako')
   
-          assert.equal(2, greets.nameCount());
+          assert.equal(2, await greets.nameCount());
   
       })
 

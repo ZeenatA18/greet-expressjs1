@@ -25,7 +25,7 @@ module.exports = function Greetings(db) {
     async function setNames(personName) {
 
         let result = await db.oneOrNone('SELECT name_text FROM greeted_names WHERE name_text =$1', [personName])
-        
+
         if (result == null) {
 
             await db.none('INSERT INTO greeted_names(name_text, count) values($1,$2)', [personName, 1])
@@ -52,7 +52,7 @@ module.exports = function Greetings(db) {
     }
 
 
-   async function getNames() {
+    async function getNames() {
 
         let storedNames = await db.manyOrNone('SELECT name_text from greeted_names;')
         return storedNames
@@ -76,12 +76,15 @@ module.exports = function Greetings(db) {
         return listed
     }
 
-    function getUsercounter(naam) {
-        return storedNames[naam]
+    async function getUsercounter(naam) {
+        let telly = await db.one('select count(*) from greeted_names;')
+
+        return telly.count
+        // return storedNames[naam]
     }
 
     async function reseted() {
-        return db.none('DELETE FROM users_greeted');
+        return db.none('DELETE FROM greeted_names');
 
         // storedNames = {}
 

@@ -97,9 +97,9 @@ app.get('/actions/type', function (req, res) {
     })
 });
 
-app.get('/count/:naam', function (req, res) {
+app.get('/count/:naam', async function (req, res) {
     let username = req.params.naam
-    let counter = greets.getUsercounter(username);
+    let counter = await greets.getUsercounter(username);
     let output = `${username} has been greeted ${counter} times.`;
 
     console.log(output)
