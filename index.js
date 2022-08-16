@@ -83,7 +83,7 @@ app.post('/greetings', async function (req, res) {
 
 app.get('/list',async function (req, res) {
     let names = await greets.getNames()
-    console.log(names)
+    // console.log(names)
     res.render('actions', {
         names: names
     })
@@ -105,7 +105,7 @@ app.get('/count/:naam', async function (req, res) {
     let counter = await greets.getUsercounter(username);
     let output = `${username} has been greeted ${counter} times.`;
 
-    console.log(output)
+    // console.log(output)
 
     res.render('count', {
         output

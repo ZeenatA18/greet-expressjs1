@@ -79,9 +79,8 @@ module.exports = function Greetings(db) {
         return listed
     }
 
-    async function getUsercounter() {
-        let telly = await db.one('select count(*) from greeted_names;')
-        // SELECT count FROM greeted_names WHERE name_text=naam()
+    async function getUsercounter(naam) {
+        let telly = await db.one('SELECT count FROM greeted_names WHERE name_text=$1',[naam])
 
         return telly.count
         // return storedNames[naam]
