@@ -23,7 +23,10 @@ const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:pg123@lo
 
 
 const config = { 
-	connectionString : DATABASE_URL
+	connectionString : DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 }
 
 const db = pgp(config);
