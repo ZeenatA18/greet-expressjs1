@@ -71,13 +71,17 @@ module.exports = function Greetings(db) {
         // return naamlist.length;
     }
 
-    function naam() {
-        var listed = Object.values(storedNames);
-        return listed
+    async function naam() {
+// let county = await db.one('select count() from greeted')
+ 
+// return county.count
+        // var listed = Object.values(storedNames);
+        // return listed
     }
 
-    async function getUsercounter(naam) {
+    async function getUsercounter() {
         let telly = await db.one('select count(*) from greeted_names;')
+        // SELECT count FROM greeted_names WHERE name_text=naam()
 
         return telly.count
         // return storedNames[naam]
