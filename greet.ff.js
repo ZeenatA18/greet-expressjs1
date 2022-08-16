@@ -73,10 +73,10 @@ module.exports = function Greetings(db) {
 
     async function naam() {
 // let county = await db.one('select count() from greeted')
- 
-// return county.count
-        // var listed = Object.values(storedNames);
-        // return listed
+ // return county.count
+
+        var listed = Object.values(storedNames);
+        return listed
     }
 
     async function getUsercounter() {
