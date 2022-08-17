@@ -23,6 +23,9 @@ module.exports = function Greetings(db) {
     }
 
     async function setNames(personName) {
+        if(alphabet.test(personName)==false){
+            return
+        }
 
         let result = await db.oneOrNone('SELECT name_text FROM greeted_names WHERE name_text =$1', [personName])
 

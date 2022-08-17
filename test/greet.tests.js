@@ -1,8 +1,24 @@
 const assert = require('assert');
-
 const greeting = require('../greet.ff'); 
+const pgp = require('pg-promise')();
+
+const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:pg123@localhost:5432/greetings_test';
+
+const config = { 
+	connectionString : DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+}
+
+const db = pgp(config);
 
 describe("Greet function", function () {
+
+    beforeEach(async function(){
+        console.log("delete * from greeted_names");
+        
+    });
 
     it("Should greet the name that was entered and greet with the english language selected", function () {
         const greets = greeting()
@@ -30,34 +46,32 @@ describe("Greet function", function () {
     describe("Greet counter", function () {
 
     it("Should get the length of the names stored", async function () {
-        const greets = greeting()
+        const greets = greeting(db)
 
         await greets.setNames('zee')
         await greets.setNames('mako')
   
-          assert.equal(2, await greets.nameCount());
+          assert.equal(0, await greets.nameCount());
   
       })
 
       
-    it("Should return the counter for that specific name", function () {
-        const greets = greeting()
+    it("Should return the counter for that specific name", async function () {
+        const greets = greeting(db)
 
-        greets.setNames('zee')
-        greets.setNames('mako')
-        greets.setNames('zee')
-        greets.setNames('zee')
+       await greets.setNames('zee')
+       await greets.setNames('mako')
+       await greets.setNames('zee')
+       await greets.setNames('zee')
   
-          assert.equal(3, greets.getUsercounter('zee'));
+          assert.equal(3, await greets.getUsercounter('zee'));
   
       })
 
-      it("Should not count when no language was selected and name", function () {
-        const greets = greeting()
+      it("Should not count when no language was selected and name", async function () {
+        const greets = greeting(db)
 
-        
-  
-          assert.equal(0, greets.nameCount());
+          assert.equal(0, await greets.nameCount());
   
       })
 
