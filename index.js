@@ -115,7 +115,7 @@ app.get('/count/:naam', async function (req, res) {
 app.get('/reset',async function (req, res) {
     await greets.reseted();
     console.log("-------------");
-
+    req.flash('error', 'You have just reset your counter')
     res.redirect('/')
 });
 

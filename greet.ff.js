@@ -23,7 +23,7 @@ module.exports = function Greetings(db) {
     }
 
     async function setNames(personName) {
-        if(alphabet.test(personName)==false){
+        if (alphabet.test(personName) == false) {
             return
         }
 
@@ -66,7 +66,7 @@ module.exports = function Greetings(db) {
     async function nameCount() {
         let counts = await db.one('select count(*) from greeted_names;')
 
-        console.log(counts)
+        // console.log(counts)
         return counts.count
 
         // var naamlist = Object.keys(storedNames);
@@ -75,23 +75,23 @@ module.exports = function Greetings(db) {
     }
 
     async function naam() {
-// let county = await db.one('select count() from greeted')
- // return county.count
+        // let county = await db.one('select count() from greeted')
+        // return county.count
 
         var listed = Object.values(storedNames);
         return listed
     }
 
     async function getUsercounter(naam) {
-        let telly = await db.one('SELECT count FROM greeted_names WHERE name_text=$1',[naam])
+        let telly = await db.one('SELECT count FROM greeted_names WHERE name_text=$1', [naam])
 
         return telly.count
         // return storedNames[naam]
     }
 
     async function reseted() {
-        return db.none('DELETE FROM greeted_names');
-
+        await db.none('DELETE FROM greeted_names');
+        // await db.none('ALTER table greeted_names ALTER COLUMN id RESTART WITH 1')
         // storedNames = {}
 
     }
