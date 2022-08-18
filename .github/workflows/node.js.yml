@@ -25,10 +25,10 @@ jobs:
         image: postgres:latest
         
         env:
-          POSTGRES_DB: <<database_name>>
-          POSTGRES_PASSWORD: <<password>>
+          POSTGRES_DB: greetings_test
+          POSTGRES_PASSWORD: pg123
           POSTGRES_PORT: 5432
-          POSTGRES_USER: <<username>>
+          POSTGRES_USER: postgres
         ports:
           - 5432:5432
         
