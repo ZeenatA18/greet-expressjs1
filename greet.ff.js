@@ -1,13 +1,8 @@
 module.exports = function Greetings(db) {
 
-    // var data = pool
-
-    var storedNames = {}
     let alphabet = /^[a-z A-Z]+$/
 
     function greet(personName, language) {
-        // let names = await pool.query('select * from greeted_names')
-        // console.log(names.rows);
 
         if (alphabet.test(personName)) {
             if (language === "eng") {
@@ -24,7 +19,7 @@ module.exports = function Greetings(db) {
 
     async function setNames(personName) {
         if (alphabet.test(personName) == false) {
-            return
+            return toLowerCase()
         }
 
         let result = await db.oneOrNone('SELECT name_text FROM greeted_names WHERE name_text =$1', [personName])
@@ -60,39 +55,26 @@ module.exports = function Greetings(db) {
         let storedNames = await db.manyOrNone('SELECT name_text from greeted_names;')
         return storedNames
 
-        // return Object.keys(storedNames)
     }
 
     async function nameCount() {
         let counts = await db.one('select count(*) from greeted_names;')
 
-        // console.log(counts)
         return counts.count
-
-        // var naamlist = Object.keys(storedNames);
-
-        // return naamlist.length;
     }
 
-    async function naam() {
-        // let county = await db.one('select count() from greeted')
-        // return county.count
 
-        var listed = Object.values(storedNames);
-        return listed
-    }
 
     async function getUsercounter(naam) {
         let telly = await db.one('SELECT count FROM greeted_names WHERE name_text=$1', [naam])
 
         return telly.count
-        // return storedNames[naam]
     }
 
     async function reseted() {
         await db.none('DELETE FROM greeted_names');
         // await db.none('ALTER table greeted_names ALTER COLUMN id RESTART WITH 1')
-        // storedNames = {}
+     
 
     }
 
@@ -105,7 +87,6 @@ module.exports = function Greetings(db) {
         nameCount,
         validateInputs,
         reseted,
-        naam,
         getUsercounter
     }
 }

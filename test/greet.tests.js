@@ -5,7 +5,7 @@ const pgp = require('pg-promise')();
 const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:pg123@localhost:5432/greetings_test';
 
 const config = {
-    connectionString: DATABASE_URL
+    connectionString: DATABASE_URL 
 }
 
 const db = pgp(config);
@@ -59,7 +59,7 @@ describe("Greet function", function () {
 
     })
 
-    it("Should not count when no language was selected and name", async function () {
+    it("Should not count when there is no language selected and name", async function () {
         const greets = greeting(db)
 
         assert.equal(0, await greets.nameCount());

@@ -9,7 +9,7 @@ const session = require('express-session');
 const pgp = require('pg-promise')();
 
 const app = express();
-
+const routes = require('./routes/greet-routes')
 // const pg = require("pg");
 // const Pool = pg.Pool;
 
@@ -32,7 +32,7 @@ const config = {
 const db = pgp(config);
 
 const greets = greeting(db)
-
+const greetRoutes = routes(greets)
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
@@ -49,75 +49,17 @@ app.use(bodyParser.json())
 app.use(flash());
 
 
-app.get('/', async function (req, res) {
-   let count = await greets.nameCount()
+app.get('/', greetRoutes.home)
 
-    res.render('index', {
-        count
+app.post('/greetings', greetRoutes.groet);
 
-    });
-})
+app.get('/list', greetRoutes.naams);
 
-app.post('/greetings', async function (req, res) {
-    let name = req.body.text_name
-    let language = req.body.language
+app.get('/actions/type', greetRoutes.getNaams);
 
+app.get('/count/:naam', greetRoutes.count);
 
-    if (name && language) {
-        var msg = greets.greet(name, language)
-    }else {
-        req.flash('error', greets.validateInputs(name,language))
-    }
-
-    if (name && language) {
-        await greets.setNames(name);
-        var count = await greets.nameCount()
-    }
-
-    res.render('index', {
-        msg,
-        count,
-    })
-});
-
-
-app.get('/list',async function (req, res) {
-    let names = await greets.getNames()
-    // console.log(names)
-    res.render('actions', {
-        names: names
-    })
-
-});
-
-app.get('/actions/type', function (req, res) {
-
-    let listedNames = req.body.text
-
-    res.render("getNames", {
-        getNames: listedNames
-        
-    })
-});
-
-app.get('/count/:naam', async function (req, res) {
-    let username = req.params.naam
-    let counter = await greets.getUsercounter(username);
-    let output = `${username} has been greeted ${counter} times.`;
-
-    // console.log(output)
-
-    res.render('count', {
-        output
-    })
-});
-
-app.get('/reset',async function (req, res) {
-    await greets.reseted();
-    console.log("-------------");
-    req.flash('error', 'You have just reset your counter')
-    res.redirect('/')
-});
+app.get('/reset', greetRoutes.reset);
 
 const PORT = process.env.PORT || 3017;
 app.listen(PORT, function () {
